@@ -19,34 +19,34 @@ cd avrdude
 sudo cmake --build build_linux --target install
 ```
 
-4. Create symbolic links to /usr/local/bin/avrdude and /usr/local/etc/avrdude.conf in the following folder: `~/.arduino15/packages/arduino/tools/avrdude/6.3.0-arduino17/`.
+4. Create symbolic links to `/usr/local/bin/avrdude` and `/usr/local/etc/avrdude.conf` in the following folder: `~/.arduino15/packages/arduino/tools/avrdude/6.3.0-arduino17/`.
 
-5. Modify /usr/local/etc/avrdude.conf:
+5. Modify `/usr/local/etc/avrdude.conf`:
 
 ```conf
-programmer # raspberry_pi_gpio
-    id                     = "raspberry_pi_gpio";
-    desc                   = "Bitbang Raspberry Pi GPIO via linuxgpio (sysfs or libgpiod)";
-    type                   = "linuxgpio";
-    prog_modes             = PM_ISP;
-    connection_type        = linuxgpio;
-    reset                  = 8;
-    sck                    = 11;
-    sdo                    = 10;
-    sdi                    = 9;
+programmer
+     id                   = "linuxgpio";
+     desc                 = "Linux sysfs/libgpiod to bitbang GPIO lines";
+     type                 = "linuxgpio";
+     prog_modes           = PM_ISP;
+     connection_type      = linuxgpio;
+     reset                = 8;
+     sck                  = 11;
+     sdo                  = 10;
+     sdi                  = 9;
 ;
 ```
 
-4. Add new AVR programmer in `~/.arduino15/packages/arduino/hardware/avr/1.8.5/programmers.txt`:
+4. Add new AVR programmer in `~/.arduino15/packages/arduino/hardware/avr/1.8.6/programmers.txt`:
 
 ```conf
-gpio.name=Raspberry Pi GPIO
-gpio.protocol=raspberry_pi_gpio
+gpio.name=Linux GPIO
+gpio.protocol=linuxgpio
 gpio.program.tool=avrdude
 gpio.program.extra_params=
 ```
 
-5. Add new RasPiO Duino board in `~/.arduino15/packages/arduino/hardware/avr/1.8.5/boards.txt`:
+5. Add new RasPiO Duino board in `~/.arduino15/packages/arduino/hardware/avr/1.8.6/boards.txt`:
 
 ```conf
 ##############################################################
@@ -79,7 +79,7 @@ gert328.build.core=arduino
 gert328.build.variant=standard
 ```
 
-6. Add new build target in `~/.arduino15/packages/arduino/hardware/avr/1.8.5/bootloaders/atmega/Makefile`:
+6. Add new build target in `~/.arduino15/packages/arduino/hardware/avr/1.8.6/bootloaders/atmega/Makefile`:
 
 ```make
 gert328: TARGET = atmega328
